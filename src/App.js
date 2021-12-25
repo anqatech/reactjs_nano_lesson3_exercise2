@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+
 import logo from './logo.svg';
 import './App.css';
+
+import FavoritedMovieList from './FavoritedMovieList'
+import NotFavoritedMovie from './NotFavoritedMovie'
+
 
 /*
 Display a list of movies where each movie contains a list of users that favorited it.
@@ -100,8 +105,22 @@ const movies = {
 class App extends Component {
   render() {
     const keys = Object.keys(movies)
-    console.log(keys)
-    
+ 
+    const userList = keys.map(key => {
+      let newArray = profiles.filter(function (profile) {
+        return profile.favoriteMovieID === this;
+      }, key)
+      if (newArray.length !== 0) {
+        console.log(`key: ${key} has ${newArray.length} users`)
+      } else {
+        console.log(`key: ${key} has no user`)
+      }
+      return newArray
+    })
+
+    console.log(userList)
+
+
     return (
       <div className="App">
         <header className="App-header">
@@ -110,15 +129,25 @@ class App extends Component {
         </header>
         <h2>How Popular is Your Favorite Movie?</h2>
 
-		<ul>
-			{
-  				keys.map(key => (
-                <li key={ key }>
-					{ movies[key].name }
-        		</li>
-              ))
-			}
-		</ul>
+        <ul>
+          {profiles.map(profile => {
+            const userName = users[profile.userID].name;
+            const favMovieName = movies[profile.favoriteMovieID].name;
+
+            return (
+              <div>
+                <FavoritedMovieList />
+                <li key={profile.id}>
+                  <p>{`${userName}\'s favorite movie is "${favMovieName}."`}</p>
+                </li>
+              </div>
+            )
+          })}
+        </ul>
+        
+        <FavoritedMovieList />
+        <NotFavoritedMovie />
+
 
       </div>
     );
