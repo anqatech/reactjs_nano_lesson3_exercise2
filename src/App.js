@@ -105,21 +105,6 @@ const movies = {
 class App extends Component {
   render() {
     const keys = Object.keys(movies)
- 
-    const userList = keys.map(key => {
-      let newArray = profiles.filter(function (profile) {
-        return profile.favoriteMovieID === this;
-      }, key)
-      if (newArray.length !== 0) {
-        console.log(`key: ${key} has ${newArray.length} users`)
-      } else {
-        console.log(`key: ${key} has no user`)
-      }
-      return newArray
-    })
-
-    console.log(userList)
-
 
     return (
       <div className="App">
@@ -130,24 +115,23 @@ class App extends Component {
         <h2>How Popular is Your Favorite Movie?</h2>
 
         <ul>
-          {profiles.map(profile => {
-            const userName = users[profile.userID].name;
-            const favMovieName = movies[profile.favoriteMovieID].name;
+          {keys.map(key => {
+            let newProfiles = profiles.filter(function (profile) {
+              return profile.favoriteMovieID === this;
+            }, key)
 
             return (
               <div>
-                <FavoritedMovieList />
-                <li key={profile.id}>
-                  <p>{`${userName}\'s favorite movie is "${favMovieName}."`}</p>
-                </li>
+                <FavoritedMovieList 
+                  movieid = { key }
+                  moviename = { movies[key].name } 
+                  filteredProfiles={ newProfiles }
+                  users = { users }
+                />
               </div>
             )
           })}
         </ul>
-        
-        <FavoritedMovieList />
-        <NotFavoritedMovie />
-
 
       </div>
     );
