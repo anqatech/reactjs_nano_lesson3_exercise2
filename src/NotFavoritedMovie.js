@@ -5,7 +5,7 @@ class NotFavoritedMovie extends Component {
   render() {
     return (
       <div>
-        <h2>Autumn Green</h2>
+        <h2>{ this.props.moviename }</h2>
         <p>None of the current users liked this movie</p>
       </div>
     )

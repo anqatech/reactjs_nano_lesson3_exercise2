@@ -120,16 +120,26 @@ class App extends Component {
               return profile.favoriteMovieID === this;
             }, key)
 
-            return (
-              <div>
-                <FavoritedMovieList 
-                  movieid = { key }
-                  moviename = { movies[key].name } 
-                  filteredProfiles={ newProfiles }
-                  users = { users }
-                />
-              </div>
-            )
+            if (newProfiles.length !== 0) {
+              return (
+                <div>
+                  <FavoritedMovieList 
+                    movieid = { key }
+                    moviename = { movies[key].name } 
+                    filteredProfiles={ newProfiles }
+                    users = { users }
+                  />
+                </div>
+              )
+            } else {
+              return (
+                <div>
+                  <NotFavoritedMovie 
+                    moviename = { movies[key].name } 
+                  />
+                </div>
+              )
+            }
           })}
         </ul>
 
